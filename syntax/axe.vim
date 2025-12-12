@@ -6,8 +6,9 @@ syn keyword axeKeyword as in is
 syn keyword axeKeyword def val const static pub
 syn keyword axeKeyword model enum union
 syn keyword axeKeyword parallel overload
-syn keyword axeException throw try catch ref
 syn keyword axeInclude export include macro extern when
+syn keyword axeException throw try catch cast unsafe raw
+syn keyword axePanic   panic enforce
 "syn keyword axeSuper   private
 
 syn keyword axeRepeat for while loop
@@ -18,11 +19,11 @@ syn keyword axeType bool char byte void string ptrdiff untyped typed
 syn keyword axeType i8 i16 i32 i64 u8 u16 u32 u64 isize usize
 syn keyword axeType int uint long ulong
 syn keyword axeType float f32 f64
-syn keyword axeLabel mut default cast
+syn keyword axeLabel mut default ref
 syn keyword axeThis self
-syn keyword axeOperator and or
+syn keyword axeOperator and or to
 syn keyword axeConstant true false null nil
-syn keyword axeSComment println print assert
+syn keyword axeSComment println print println_str assert
 
 "syn keyword axeModeMsg null
 "syn keyword axeAdded true 
@@ -34,7 +35,8 @@ syn match axeOperator   '[\+\-\%=\/\^\&\*!?><\$|~]'
 syn match axeConstant   '[{}\[\]()]'
 "syn match axeTypedef '\<\w\+\(\(<.*>\)\?\s*\.\w\+.*(.*).*{\s*\(.*}\)\?$\)\@='
 "syn match axeType       '\v^\s*\w+\ze((\[.*\])|[\*])*\s+[\*]?\w+\s*(\[.*\])?\s*[=]' " c code type
-syn match axeType       '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*\s*\)' " (type*)
+syn match axeType       '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\)' " (type*)
+syn match axeType       '\v\[@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\]' " [type*]
 syn match axeType       '\v<\w+_[tscemui]>'
 syn match axeMacro      '\v<[_]*\u[A-Z0-9_]*>'
 syn match axeType       '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
@@ -44,12 +46,13 @@ syn match axeType       '\v\w+\ze(::|\<[.*]*\>)' "foo<T>()
 syn match axeFunc       '\v[_]*\l\w*\ze((\[.*\])|((::)?\<.*\>))*\s*\('
 "syn match axeType       '\v(([^:]:)\s*\&*)@<=\w\w*>'
 
-syn match axeException  '\v(\W@<=[~&*]+\ze[\(\[\{\<]*\'?\w)|(\w@<=[*]+\ze\W)'
+syn match axeException  '\v(\W@<=[~&*]+\ze[\(\[\{\<]*\s*\w)|(\w@<=[*]+\ze\W)'
 syn match axeStruct     '\v((type|model|struct|enum|union)(\[.*\])?\s*)@<=[_]*\w+\ze(\[.*\])?\s*(\(|\{)'
 syn match axeMacro      '\v^\s*\[.{-}\]'
+syn match axeType       '\v<(str)\ze\s*\('
+syn match axeSComment   '\v<(reduce|deref|list|addr)\ze\s*\('
 syn match axeAdded      '\v^\s*(test)>'
-syn match axeException  '\v^\s*(unsafe|raw)>'
-syn match axeInclude    '\v\s*^use .*[^(]'
+syn match axeInclude    '\v^\s*use .*[^(]'
 "syn keyword Keyword type struct enum interface nextgroup=axeTypedef skipwhite skipempty
 
 " -- shader
@@ -94,7 +97,7 @@ syn match axeNumber "\v<0[xX][0-9a-fA-F_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 syn match axeNumber "\v<0[bB][01_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 
 syn match axeFloat  '\v<\.\d+([eE][+-]?\d+)?[fFdD]?>' display
-syn match axeFloat  '\v<([0-9]+)([eE][+-]?\d+)?[fFdD]?>' display
+syn match axeFloat  '\v<([0][1-9]*)([eE][+-]?\d+)?[fFdD]?>' display
 syn match axeFloat  '\v<0x\x+(\.\x+)?[pP][+-]?\d+[fFdD]?>' display
 
 " Integer literals
@@ -143,6 +146,7 @@ hi def link axeString                String
 hi def link axeCharacter             Character
 hi def link axeSpecialChar           SpecialChar
 hi def link axeException             Exception
+hi def link axePanic                 Exception
 
 syn match   axeTypedef    contains=axeTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn match   axeFunc       "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
