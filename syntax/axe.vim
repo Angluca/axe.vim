@@ -18,7 +18,7 @@ syn keyword axeType bool char byte void string ptrdiff untyped typed
 syn keyword axeType i8 i16 i32 i64 u8 u16 u32 u64 isize usize
 syn keyword axeType int uint long ulong
 syn keyword axeType float f32 f64
-syn keyword axeLabel mut default
+syn keyword axeLabel mut default cast
 syn keyword axeThis self
 syn keyword axeOperator and or
 syn keyword axeConstant true false null nil
@@ -33,7 +33,8 @@ syn match axeSymbol     '[,;:\.]'
 syn match axeOperator   '[\+\-\%=\/\^\&\*!?><\$|~]'
 syn match axeConstant   '[{}\[\]()]'
 "syn match axeTypedef '\<\w\+\(\(<.*>\)\?\s*\.\w\+.*(.*).*{\s*\(.*}\)\?$\)\@='
-syn match axeType       '\v^\s*\w+\ze((\[.*\])|[\*])*\s+[\*]?\w+\s*(\[.*\])?\s*[;=]' " c code type
+"syn match axeType       '\v^\s*\w+\ze((\[.*\])|[\*])*\s+[\*]?\w+\s*(\[.*\])?\s*[=]' " c code type
+syn match axeType       '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*\s*\)' " (type*)
 syn match axeType       '\v<\w+_[tscemui]>'
 syn match axeMacro      '\v<[_]*\u[A-Z0-9_]*>'
 syn match axeType       '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
