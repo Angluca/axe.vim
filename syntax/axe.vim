@@ -6,7 +6,7 @@ syn keyword axeKeyword def val const static pub
 syn keyword axeKeyword model enum union
 syn keyword axeKeyword parallel overload single
 
-syn keyword axeType bool char byte void string ptrdiff untyped typed
+syn keyword axeType bool char rchar byte void string ptrdiff untyped typed
 syn keyword axeType i8 i16 i32 i64 u8 u16 u32 u64 isize usize
 syn keyword axeType int uint long ulong
 syn keyword axeType float f32 f64
@@ -15,12 +15,12 @@ syn keyword axeSelf self
 syn keyword axeLabel mut default ref as
 syn keyword axeOperator and or is
 syn keyword axeConstant true false null nil
-syn keyword axeSComment println print println_str assert
+syn keyword axeSComment assert println print
 
 syn keyword axeRepeat while loop for in to
 syn keyword axeStatement break continue return
 syn keyword axeConditional if else elif switch case
-syn keyword axeInclude export include macro extern when
+syn keyword axeInclude export include macro extern when foreign
 
 syn keyword axeException throw try catch cast unsafe raw
 syn keyword axePanic panic enforce
@@ -86,8 +86,9 @@ syn match  axeSpecialChar      contained "\\\([\"\\'ntr]\|[xX]\x\{2}\)"
 syn match  axeCharacter        "'[^']*'" contains=axeSpecialChar,axeSpecialCharError
 syn match  axeCharacter        "'\\''" contains=axeSpecialChar
 syn match  axeCharacter        "'[^\\]'"
-"syn region axeString           start=+["'`]+ end=+["'`]+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
 syn region axeString           start=+["]+ end=+["]+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
+syn region axeString           start=+[']+ end=+[']+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
+syn region axeString           start=+[`]+ end=+[`]+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
 
 syn match axeNumber "\v<0[xX][0-9a-fA-F_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 syn match axeNumber "\v<0[bB][01_]+([iuIU]?[lL]?[0-9]{-,3})?>"
@@ -144,10 +145,11 @@ hi def link axeSpecialChar           SpecialChar
 hi def link axeException             Exception
 hi def link axePanic                 Exception
 
-syn match   axeTypedef    contains=axeTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
-syn match   axeFunc       "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
-syn keyword axeKeyword union struct model enum type platform nextgroup=axeTypedef skipwhite skipempty
-syn keyword axeKeyword platform nextgroup=axeType skipwhite skipempty contained
+syn match   axeTypedef  contains=axeTypedef "\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+syn match   axeFunc     "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
+syn keyword axeKeyword union struct model enum type nextgroup=axeTypedef skipwhite skipempty
+syn keyword axeKeyword union nextgroup=axeType skipwhite skipempty contained
+syn keyword axeMacro platform nextgroup=axeTypedef skipwhite skipempty
 " adapted from neovim runtime/syntax
 syn keyword axeTodo contained TODO FIXME XXX NOTE
 syn region  axeComment  start="/\*" end="\*/" contains=axeTodo,@Spell
