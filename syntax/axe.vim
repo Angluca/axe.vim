@@ -20,7 +20,7 @@ syn keyword axeSComment assert println print
 syn keyword axeRepeat while loop for in to
 syn keyword axeStatement break continue return
 syn keyword axeConditional if else elif switch case
-syn keyword axeInclude export include macro extern when foreign
+syn keyword axeInclude export include extern when foreign
 
 syn keyword axeException throw try catch cast unsafe raw
 syn keyword axePanic panic enforce
@@ -30,7 +30,6 @@ syn match axePreProc    '[@]'
 syn match axeSymbol     '[,;:\.]'
 syn match axeOperator   '[\+\-\%=\/\^\&\*!?><\$|~]'
 syn match axeConstant   '[{}\[\]()]'
-"syn match axeType       '\v^\s*\w+\ze((\[.*\])|[\*])*\s+[\*]?\w+\s*(\[.*\])?\s*[=]' " c code type
 syn match axeType       '\v\(@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\)' " (type*)
 syn match axeType       '\v\[@<=\s*\w+\ze(\[.*\])*\s*\*+\s*\]' " [type*]
 syn match axeType       '\v<\w+_[tscemui]>'
@@ -52,17 +51,17 @@ syn match axeAdded      '\v^\s*<(test)\ze\s*\{'
 syn match axeInclude    '\v^\s*use .*[^(]'
 
 " -- shader
-syn keyword   axeKeyword   uniform instance varying var
-syn keyword   axeKeyword   vertex fragment
-syn keyword   axeType      texture texture2D textureOES
-syn match     axeType      '\v<bool[234]?>'
-syn match     axeType      '\v<int[234]?>'
-syn match     axeType      '\v<uint[234]?>'
-syn match     axeType      '\v<half[234]?>'
-syn match     axeType      '\v<float([234](x[234])?)?>'
-syn match     axeType      '\v<[dbui]?vec[234]>'
-syn match     axeType      '\v<vec[234][dbfhui]?>'
-syn match     axeType      '\v<mat[234](x[234]f)?>'
+syn keyword axeKeyword  uniform instance varying var
+syn keyword axeKeyword  vertex fragment
+syn keyword axeType     texture texture2D textureOES
+syn match   axeType     '\v<bool[234]?>'
+syn match   axeType     '\v<int[234]?>'
+syn match   axeType     '\v<uint[234]?>'
+syn match   axeType     '\v<half[234]?>'
+syn match   axeType     '\v<float([234](x[234])?)?>'
+syn match   axeType     '\v<[dbui]?vec[234]>'
+syn match   axeType     '\v<vec[234][dbfhui]?>'
+syn match   axeType     '\v<mat[234](x[234]f)?>'
 
 "hi def axeSymbol ctermfg=DarkGray guifg=DarkGray
 hi def link axeTitle    Title
@@ -149,7 +148,7 @@ syn match   axeTypedef  contains=axeTypedef "\%([^[:cntrl:][:space:][:punct:][:d
 syn match   axeFunc     "\%(r#\)\=\%([^[:cntrl:][:space:][:punct:][:digit:]]\|_\)\%([^[:cntrl:][:punct:][:space:]]\|_\)*" display contained
 syn keyword axeKeyword union struct model enum type nextgroup=axeTypedef skipwhite skipempty
 syn keyword axeKeyword union nextgroup=axeType skipwhite skipempty contained
-syn keyword axeMacro platform nextgroup=axeTypedef skipwhite skipempty
+syn keyword axeMacro platform macro nextgroup=axeTypedef skipwhite skipempty
 " adapted from neovim runtime/syntax
 syn keyword axeTodo contained TODO FIXME XXX NOTE
 syn region  axeComment  start="/\*" end="\*/" contains=axeTodo,@Spell
