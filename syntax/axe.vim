@@ -16,6 +16,8 @@ syn keyword axeLabel mut default ref as
 syn keyword axeOperator and or is
 syn keyword axeConstant true false null nil
 syn keyword axeSComment assert println print
+syn match   axeNew  '\v<(new|[m]?alloc|create)>'
+syn match   axeFree '\v<(free)>'
 
 syn keyword axeRepeat while loop for in to
 syn keyword axeStatement break continue return
@@ -51,9 +53,9 @@ syn match axeAdded      '\v^\s*<(test)\ze\s*\{'
 syn match axeInclude    '\v^\s*use .*[^(]'
 
 " -- shader
-syn keyword axeKeyword  uniform instance varying var
-syn keyword axeKeyword  vertex fragment
-syn keyword axeType     texture texture2D textureOES
+"syn keyword axeKeyword  uniform instance varying var
+"syn keyword axeKeyword  vertex fragment
+"syn keyword axeType     texture texture2D
 syn match   axeType     '\v<bool[234]?>'
 syn match   axeType     '\v<int[234]?>'
 syn match   axeType     '\v<uint[234]?>'
@@ -64,6 +66,8 @@ syn match   axeType     '\v<vec[234][dbfhui]?>'
 syn match   axeType     '\v<mat[234](x[234]f)?>'
 
 "hi def axeSymbol ctermfg=DarkGray guifg=DarkGray
+hi def link axeNew      SpecialComment
+hi def link axeFree     Exception
 hi def link axeTitle    Title
 hi def link axeAdded    Added
 hi def link axeStruct   Changed
@@ -85,9 +89,9 @@ syn match  axeSpecialChar      contained "\\\([\"\\'ntr]\|[xX]\x\{2}\)"
 syn match  axeCharacter        "'[^']*'" contains=axeSpecialChar,axeSpecialCharError
 syn match  axeCharacter        "'\\''" contains=axeSpecialChar
 syn match  axeCharacter        "'[^\\]'"
-syn region axeString           start=+["]+ end=+["]+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
-syn region axeString           start=+[']+ end=+[']+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
-syn region axeString           start=+[`]+ end=+[`]+ end=+$+ contains=axeSpecialChar,axeSpecialCharError,@Spell
+
+syn region    axeString      matchgroup=axeString start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=axeEscape
+syn region    axeString      matchgroup=axeString start=+`+ skip=+\\\\\|\\`+ end=+`+ contains=axeEscape,@Spell
 
 syn match axeNumber "\v<0[xX][0-9a-fA-F_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 syn match axeNumber "\v<0[bB][01_]+([iuIU]?[lL]?[0-9]{-,3})?>"
