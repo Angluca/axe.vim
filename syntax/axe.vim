@@ -16,13 +16,14 @@ syn keyword axeLabel mut default ref as
 syn keyword axeOperator and or is
 syn keyword axeConstant true false null nil
 syn keyword axeSComment assert println print
-syn match   axeNew  '\v<(new|[m]?alloc|create)>'
-syn match   axeFree '\v<(free)>'
+syn match   axeSMacro   '\v<(put)>'
+syn match   axeNew      '\v<(new|[m]?alloc|create)>'
+syn match   axeFree     '\v<(free)>'
 
 syn keyword axeRepeat while loop for in to
 syn keyword axeStatement break continue return
 syn keyword axeConditional if else elif switch case
-syn keyword axeInclude export include extern when foreign
+syn keyword axeInclude export include extern when foreign opaque
 
 syn keyword axeException throw try catch cast unsafe raw
 syn keyword axePanic panic enforce
@@ -39,18 +40,18 @@ syn match axeMacro      '\v<[_]*\u[A-Z0-9_]*>'
 syn match axeType       '\v<[_]*\u[A-Z0-9_]*[a-z]+\w*>'
 syn match axeType       '\v\.?\zs<([iu][0-9]{1,3})?>'
 syn match axeRepeat     '\v([^\.](\.|::|-\>))@<=\w\w*'
-syn match axeType       '\v\w+\ze(::|\<[.*]*\>)' "foo<T>()
+syn match axeType       '\v<\w+>\ze(::|\<(\w+\s*(\<.*\>|\[.*\])?\s*[,]?\s*)*\>)' "foo<T>()
 syn match axeFunc       '\v[_]*\l\w*\ze((\[.*\])|((::)?\<.*\>))*\s*\('
-"syn match axeType       '\v(([^:]:)\s*\&*)@<=\w\w*>'
 
-syn match axeException  '\v(\W@<=[~&*]+\ze[\(\[\{\<]*\w)|(\w@<=[*]+\ze\W)'
+syn match axeException  '\v(\W@<=[~&*]+\ze[\(\[\{\<]*[-]?\w)|(\w@<=[*]+\ze\W)'
 syn match axeStruct     '\v((type|model|struct|enum|union)(\[.*\])?\s*)@<=[_]*\w+\ze(\[.*\])?\s*(\(|\{)'
+
+syn match axeInclude    '\v^\s*use .*[^(]'
 syn match axeMacro      '\v^\s*\[.{-}\]'
 syn match axeType       '\v<(str)\ze\s*\('
-syn match axeSComment   '\v<(reduce|deref|list)\ze\s*\('
+syn match axeSMacro     '\v<(reduce|deref|list)\ze\s*\('
 syn match axeLabel      '\v<(addr)\ze\s*\('
 syn match axeAdded      '\v^\s*<(test)\ze\s*\{'
-syn match axeInclude    '\v^\s*use .*[^(]'
 
 " -- shader
 "syn keyword axeKeyword  uniform instance varying var
@@ -64,9 +65,11 @@ syn match   axeType     '\v<float([234](x[234])?)?>'
 syn match   axeType     '\v<[dbui]?vec[234]>'
 syn match   axeType     '\v<vec[234][dbfhui]?>'
 syn match   axeType     '\v<mat[234](x[234]f)?>'
+syn match   Keyword     '\v^<(in|out)>'
 
 "hi def axeSymbol ctermfg=DarkGray guifg=DarkGray
-hi def link axeNew      SpecialComment
+hi def link axeSMacro   SpecialComment
+hi def link axeNew      Added
 hi def link axeFree     Exception
 hi def link axeTitle    Title
 hi def link axeAdded    Added
@@ -90,8 +93,9 @@ syn match  axeCharacter        "'[^']*'" contains=axeSpecialChar,axeSpecialCharE
 syn match  axeCharacter        "'\\''" contains=axeSpecialChar
 syn match  axeCharacter        "'[^\\]'"
 
-syn region    axeString      matchgroup=axeString start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=axeEscape
-syn region    axeString      matchgroup=axeString start=+`+ skip=+\\\\\|\\`+ end=+`+ contains=axeEscape,@Spell
+"syn region    axeString      matchgroup=axeString start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=axeEscape,@Spell
+syn region    axeString      matchgroup=axeString start=+"+ skip=+\\\\\|\\"+ end=+"+ contains=@Spell
+syn region    axeString      matchgroup=axeString start=+`+ skip=+\\\\\|\\`+ end=+`+ contains=@Spell
 
 syn match axeNumber "\v<0[xX][0-9a-fA-F_]+([iuIU]?[lL]?[0-9]{-,3})?>"
 syn match axeNumber "\v<0[bB][01_]+([iuIU]?[lL]?[0-9]{-,3})?>"
