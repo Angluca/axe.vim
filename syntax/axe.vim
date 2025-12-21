@@ -7,13 +7,13 @@ syn keyword axeKeyword model enum union
 syn keyword axeKeyword parallel overload single
 
 syn keyword axeType bool char rchar byte void string ptrdiff untyped typed
-syn keyword axeType i8 i16 i32 i64 u8 u16 u32 u64 isize usize
+syn keyword axeType i8 i16 i32 i64 u8 u16 u32 u64 isize usize size
 syn keyword axeType int uint long ulong
 syn keyword axeType float f32 f64
 
 syn keyword axeSelf self
 syn keyword axeLabel mut default ref as
-syn keyword axeOperator and or is
+syn keyword axeOperator and or is mod
 syn keyword axeConstant true false null nil
 syn keyword axeSComment assert println print
 syn match   axeSMacro   '\v<(put)>'
@@ -21,7 +21,7 @@ syn match   axeNew      '\v<(new|[m]?alloc|create)>'
 syn match   axeFree     '\v<(free)>'
 
 syn keyword axeRepeat while loop for in to
-syn keyword axeStatement break continue return
+syn keyword axeStatement break continue return defer
 syn keyword axeConditional if else elif switch case
 syn keyword axeInclude export include extern when foreign opaque
 
