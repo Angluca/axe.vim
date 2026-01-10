@@ -54,9 +54,8 @@ syn match axeLabel      '\v<(addr)\ze\s*\('
 syn match axeAdded      '\v^\s*<(test)\ze\s*\{'
 
 " -- shader
-"syn keyword axeKeyword  uniform instance varying var
-"syn keyword axeKeyword  vertex fragment
-"syn keyword axeType     texture texture2D
+syn match   axeKeyword  '\v<(uniform|instance|varying|var|vertex|fragment|in|out)>\s'
+syn match   axeType     '\v<(texture|texture2D)>\s'
 syn match   axeType     '\v<bool[234]?>'
 syn match   axeType     '\v<int[234]?>'
 syn match   axeType     '\v<uint[234]?>'
@@ -65,7 +64,8 @@ syn match   axeType     '\v<float([234](x[234])?)?>'
 syn match   axeType     '\v<[dbui]?vec[234]>'
 syn match   axeType     '\v<vec[234][dbfhui]?>'
 syn match   axeType     '\v<mat[234](x[234]f)?>'
-syn match   Keyword     '\v^<(in|out)>'
+syn match   axeType     '\v<(vec|mat|list)\ze\['
+
 
 "hi def axeSymbol ctermfg=DarkGray guifg=DarkGray
 hi def link axeSMacro   SpecialComment

@@ -1,5 +1,7 @@
 #### Vim plugin for axe language
-https://axelang.org
+https://axelang.org  
+
+Install using [vim-plug](https://github.com/junegunn/vim-plug)
 ```vim
 Plug 'angluca/axe.vim'
 ```
